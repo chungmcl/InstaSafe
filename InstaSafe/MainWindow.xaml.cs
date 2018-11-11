@@ -25,9 +25,16 @@ namespace InstaSafe
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const double PastMonthWeight = .6;
+        private const double PastThreeWeight = .25;
+        private const double PastSixWeight = .1;
+        private const double PastYearWeight = .04;
+        private const double OverYearWeight = .01;
+
         List<string[]> suspects;
         List<Post> posts;
-        int[] thresholdAverageSeverities = new int[5];
+        double[] thresholdAverageSeverities = new double[5];
+        double overallUserSeverity;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -127,6 +134,12 @@ namespace InstaSafe
             {
                 this.thresholdAverageSeverities[i] /= totalPosts[i];
             }
+        }
+
+        private void OverallUserSeverity()
+        {
+            this.overallUserSeverity = thresholdAverageSeverities[0] * PastMonthWeight + thresholdAverageSeverities[1] * PastThreeWeight
+                + thresholdAverageSeverities[2] * PastSixWeight + thresholdAverageSeverities[3] * PastYearWeight + thresholdAverageSeverities[4] * OverYearWeight;
         }
     }
 
