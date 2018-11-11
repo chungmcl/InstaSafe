@@ -115,5 +115,10 @@ namespace InstaSafe
                 selectedUserDataPage.Show();
             }
         }
+
+        private void Link_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://kylemumma.github.io/instasafe/instasafe.htm");
+        }
     }
 }

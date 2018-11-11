@@ -68,7 +68,7 @@
                 <DropShadowEffect BlurRadius="9"/>
             </Label.Effect>
         </Label>
-        <Button x:Name="Link" Content="Website" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="69" Height="18" FontSize="9" Foreground="White" BorderBrush="{x:Null}">
+        <Button x:Name="Link" Content="Website" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="69" Height="18" FontSize="9" Foreground="White" BorderBrush="{x:Null}" Click="Link_Click">
             <Button.Effect>
                 <DropShadowEffect Color="#FF9B9B9B" ShadowDepth="1"/>
             </Button.Effect>
