@@ -21,10 +21,12 @@ namespace InstaSafe
         private List<Post> posts;
         private double[] thresholdAverageSeverities = new double[5];
         public double overallUserSeverity;
+        public string username;
 
-        public Account(List<Post> addPosts)
+        public Account(List<Post> addPosts, string username)
         {
             this.posts = addPosts;
+            this.username = username;
             SetAllSeverity();
             OrganizePostDateThresholds();
             CalculateThresholdAverages();

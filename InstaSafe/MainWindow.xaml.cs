@@ -27,6 +27,7 @@ namespace InstaSafe
         public MainWindow()
         {
             this.InitializeComponent();
+            suspects = new List<Account>();
         }
 
         private void ButtonGenerateData_Click(object sender, RoutedEventArgs e)
@@ -47,20 +48,28 @@ namespace InstaSafe
             List<Account> accounts = new List<Account>();
             StreamReader readerImage = new StreamReader(imageTextFile);
             StreamReader readerCap = new StreamReader(captionTextFile);
-            string username;
+            string username = readerImage.ReadLine();
+            readerCap.ReadLine();
+            List<Post> posts = new List<Post>();
+
             while (!readerImage.EndOfStream && !readerCap.EndOfStream)
             {
-                List<Post> posts = new List<Post>();
                 string current = readerImage.ReadLine();
-                if (!current.Contains(','))
+                if (!current.Contains(' '))
                 {
+                    this.suspects.Add(new Account(posts, username));
                     username = current;
+                    posts = new List<Post>();
                 }
-                string[] dataImage = readerImage.ReadLine().Split(',');
-                string dataCap = readerCap.ReadLine().Trim();
-                posts.Add(new Post((dataCap == "1"), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
-                this.suspects.Add(new Account(posts));
+                else
+                {
+                    string[] dataImage = readerImage.ReadLine().Split(' ');
+                    string dataCap = readerCap.ReadLine().Trim();
+                    posts.Add(new Post((dataCap == "1"), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
+                    
+                }
             }
+            this.suspects.Add(new Account(posts, username));
         }
     }
 }
