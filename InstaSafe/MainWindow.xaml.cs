@@ -82,14 +82,6 @@ namespace InstaSafe
 
         }
 
-        private void CalculateSeverity()
-        {
-            for (int i = 0; i < suspects.Count; i++)
-            {
-                suspects[i][i]
-            }
-        }
-
         private void PostData()
         {
 
