@@ -109,9 +109,11 @@ namespace InstaSafe
         /// </summary>
         public int overallSeverity { get; set; }
 
-        public Post()
+        public Post(bool setCapt, double setImg, DateTime setDate)
         {
-
+            this.captionBad = setCapt;
+            this.imageSeverity = setImg;
+            this.date = setDate;
         }
     }
 }
