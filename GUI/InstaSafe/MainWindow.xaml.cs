@@ -15,6 +15,8 @@ namespace InstaSafe
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const double HateSpeechWeight = .6;
+        private const double OffensiveLanguageWeight = .4;
         List<Account> suspects;
         public MainWindow()
         {
@@ -80,7 +82,11 @@ namespace InstaSafe
                         else
                         {
                             string[] dataImage = current.Split(' ');
-                            posts.Add(new Post(Convert.ToDouble(dataCap), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
+                            string[] capData = dataCap.Split(' ');
+                            double weightedScore = 0;
+                            if (Convert.ToInt32(capData[5]) < Convert.ToInt32(capData[1]) || Convert.ToInt32(capData[5]) < Convert.ToInt32(capData[3]))
+                                weightedScore = Convert.ToInt32(capData[1]) * HateSpeechWeight + Convert.ToInt32(capData[3]) * OffensiveLanguageWeight;
+                            posts.Add(new Post(Convert.ToDouble(weightedScore), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
 
                         }
                     }
