@@ -24,7 +24,7 @@ namespace InstaSafe
             this.suspects = new List<Account>();
         }
 
-        private void ButtonGenerateData_Click(object sender, RoutedEventArgs e)
+        private async void ButtonGenerateData_Click(object sender, RoutedEventArgs e)
         {
             this.DataGrid.Items.Clear();
             this.suspects.Clear();
@@ -38,7 +38,15 @@ namespace InstaSafe
                 streamWriter.WriteLine(usernames[i] + ";");
             }
             streamWriter.Close();
-            this.LoadAccounts($"{currentFolderPath}\\ImageData.txt", $"{currentFolderPath}\\CaptionData.txt");
+            this.TextBoxUsernames.IsEnabled = false;
+            this.TextBoxUsernames.Text = "Loading...";
+            this.ButtonGenerateData.IsEnabled = false;
+            await Task.Run(() => 
+                this.LoadAccounts($"{currentFolderPath}\\ImageData.txt", $"{currentFolderPath}\\CaptionData.txt"));
+
+            this.TextBoxUsernames.IsEnabled = true;
+            this.TextBoxUsernames.Text = "";
+            this.ButtonGenerateData.IsEnabled = true;
             //Task loadAccounts = Task.Run(() => this.LoadAccounts($"{currentFolderPath}\\ImageData.txt", $"{currentFolderPath}\\CaptionData.txt"));
             this.suspects.Sort();
             foreach (Account account in this.suspects)
