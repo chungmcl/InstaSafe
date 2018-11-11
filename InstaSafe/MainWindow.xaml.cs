@@ -49,29 +49,29 @@ namespace InstaSafe
         {
             for (int i = 0; i < this.posts.Count(); i++)
             {
-                double howLongAgo = (DateTime.Now - this.posts[i].GetDate()).TotalDays;
+                double howLongAgo = (DateTime.Now - this.posts[i].Date).TotalDays;
 
                 // 0 is highest severity, 4 is lowest
-                this.posts[i].RecencySeverity = 4;
+                this.posts[i].DateThreshold = PostThreshold.OverYear;
                 // Within a year
                 if (howLongAgo <= 365)
                 {
-                    this.posts[i].RecencySeverity = 3;
+                    this.posts[i].DateThreshold = PostThreshold.PastYear;
                 }
                 // Within half a year
                 if (howLongAgo <= 182)
                 {
-                    this.posts[i].RecencySeverity = 2;
+                    this.posts[i].DateThreshold = PostThreshold.PastSix;
                 }
                 // Within three months
                 else if (howLongAgo <= 93)
                 {
-                    this.posts[i].RecencySeverity = 1;
+                    this.posts[i].DateThreshold = PostThreshold.PastThree;
                 }
                 // Within a month
                 if (howLongAgo <= 31)
                 {
-                    this.posts[i].RecencySeverity = 0;
+                    this.posts[i].DateThreshold = PostThreshold.PastMonth;
                 }
             }
         }
@@ -140,7 +140,7 @@ namespace InstaSafe
         /// </summary>
         public DateTime Date { get; set; }
 
-        public int RecencySeverity { get; set; }
+        public PostThreshold DateThreshold { get; set; }
 
         /// <summary>
         /// The overall severity of the post;
