@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 using System.Reflection;
 
@@ -23,7 +14,6 @@ namespace InstaSafe
     /// </summary>
     public partial class MainWindow : Window
     {
-
         List<Account> suspects;
         public MainWindow()
         {
@@ -33,13 +23,16 @@ namespace InstaSafe
 
         private void ButtonGenerateData_Click(object sender, RoutedEventArgs e)
         {
+            this.DataGrid.Items.Clear();
+            this.suspects.Clear();
+            
             string[] usernames = this.TextBoxUsernames.Text.Split(',');
             string currentFolderPath = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString();
             StreamWriter streamWriter = new StreamWriter(currentFolderPath + "\\usernames.txt");
             for (int i = 0; i < usernames.Length; i++)
             {
                 usernames[i] = usernames[i].Trim();
-                streamWriter.WriteLine(usernames[i]);
+                streamWriter.WriteLine(usernames[i] + ";");
             }
             streamWriter.Close();
             // Have python generate ImageData.txt and CaptionData.txt from usernames.txt
@@ -62,6 +55,7 @@ namespace InstaSafe
 
             while (!readerImage.EndOfStream && !readerCap.EndOfStream)
             {
+                string dataCap = readerCap.ReadLine().Trim();
                 string current = readerImage.ReadLine();
                 if (!current.Contains(' '))
                 {
@@ -72,12 +66,23 @@ namespace InstaSafe
                 else
                 {
                     string[] dataImage = current.Split(' ');
-                    string dataCap = readerCap.ReadLine().Trim();
-                    posts.Add(new Post((dataCap == "1"), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
+                    posts.Add(new Post(Convert.ToDouble(dataCap), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
                     
                 }
             }
             this.suspects.Add(new Account(posts, username));
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<Account> selectedAccounts = new List<Account>();
+            // Load all the items that the user selects
+            for (int i = 0; i < this.DataGrid.SelectedItems.Count; i++)
+            {
+                selectedAccounts.Add((Account)this.DataGrid.SelectedItems[i]);
+                SelectedUserDataPage selectedUserDataPage = new SelectedUserDataPage(selectedAccounts[0]);
+                selectedUserDataPage.Show();
+            }
         }
     }
 }

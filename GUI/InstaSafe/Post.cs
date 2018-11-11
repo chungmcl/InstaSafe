@@ -11,7 +11,7 @@ namespace InstaSafe
         /// <summary>
         /// Whether the caption is considered to have risk or not
         /// </summary>
-        public bool CaptionBad { get; set; }
+        public double CaptionSeverity { get; set; }
 
         /// <summary>
         /// The severity score of the image posted
@@ -23,16 +23,25 @@ namespace InstaSafe
         /// </summary>
         public DateTime Date { get; set; }
 
+        public string DateString
+        {
+            get
+            {
+                return this.Date.ToShortDateString();
+            }
+        }
+
+
         public PostThreshold DateThreshold { get; set; }
 
         /// <summary>
         /// The overall severity of the post;
         /// </summary>
-        public double overallSeverity { get; set; }
+        public double OverallSeverity { get; set; }
 
-        public Post(bool setCapt, double setImg, DateTime setDate)
+        public Post(double setCapt, double setImg, DateTime setDate)
         {
-            this.CaptionBad = setCapt;
+            this.CaptionSeverity = setCapt;
             this.ImageSeverity = setImg;
             this.Date = setDate;
         }

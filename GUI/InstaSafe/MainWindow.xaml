@@ -5,20 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InstaSafe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="591.6" Width="1085.6">
-    <Grid>
+        Title="MainWindow" Height="496.4" Width="513.15">
+    <Grid Margin="0,0,13.8,5.4">
 
-        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="295" Margin="10,257,0,0" VerticalAlignment="Top" Width="582">
+        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="295" Margin="10,166,-0.4,0" VerticalAlignment="Top" Width="483" SelectionChanged="DataGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Username" Binding="{Binding username, Mode=OneWay}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Severity Level" Binding="{Binding overallUserSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding Username, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Severity Level" Binding="{Binding OverallUserSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <TextBox x:Name="TextBoxUsernames" HorizontalAlignment="Left" Height="47" Margin="10,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="488"
+        <TextBox x:Name="TextBoxUsernames" HorizontalAlignment="Left" Height="47" Margin="10,89,-0.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="483"
                  Text=""
                  />
-        <Label Content="Enter list of usernames, separated by commas" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Height="29"/>
-        <Button x:Name="ButtonGenerateData" Content="Generate Data&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.403,0.51" Height="20" Click="ButtonGenerateData_Click"/>
+        <Label Content="Enter list of usernames, separated by commas" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Height="29"/>
+        <Button x:Name="ButtonGenerateData" Content="Generate Data&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.403,0.51" Height="20" Click="ButtonGenerateData_Click"/>
+        <Label Content="InstaSafe" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="60" Height="25"/>
     </Grid>
 </Window>
