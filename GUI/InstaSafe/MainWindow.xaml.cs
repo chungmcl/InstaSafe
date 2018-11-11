@@ -15,8 +15,8 @@ namespace InstaSafe
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const double HateSpeechWeight = .6;
-        private const double OffensiveLanguageWeight = .4;
+        private const double HateSpeechWeight = 2;
+        private const double OffensiveLanguageWeight = .1;
         List<Account> suspects;
         public MainWindow()
         {
@@ -52,50 +52,53 @@ namespace InstaSafe
             // Have python generate ImageData.txt and CaptionData.txt from usernames.txt
             string path = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString();
             System.Diagnostics.Process.Start(path + @"\InstagramScraper.py");
-            //if (File.Exists(imageTextFile) && File.Exists(captionTextFile))
-            //{
-            //    File.Delete(imageTextFile);
-            //    File.Delete(captionTextFile);
-            //}
-            bool notFinished = true;
-            while (notFinished)
+            if (File.Exists(imageTextFile) && File.Exists(captionTextFile))
             {
-                try
+                File.Delete(imageTextFile);
+                File.Delete(captionTextFile);
+            }
+            File.Delete(path + "\\complete.txt");
+            while (true)
+            {
+                if (File.Exists(path + "\\complete.txt"))
                 {
-                    List<Account> accounts = new List<Account>();
-                    StreamReader readerImage = new StreamReader(imageTextFile);
-                    StreamReader readerCap = new StreamReader(captionTextFile);
-                    string username = readerImage.ReadLine();
-                    readerCap.ReadLine();
-                    List<Post> posts = new List<Post>();
-
-                    while (!readerImage.EndOfStream && !readerCap.EndOfStream)
+                    try
                     {
-                        string dataCap = readerCap.ReadLine().Trim();
-                        string current = readerImage.ReadLine();
-                        if (!current.Contains(' '))
-                        {
-                            this.suspects.Add(new Account(posts, username));
-                            username = current;
-                            posts = new List<Post>();
-                        }
-                        else
-                        {
-                            string[] dataImage = current.Split(' ');
-                            string[] capData = dataCap.Split(' ');
-                            double weightedScore = 0;
-                            if (Convert.ToInt32(capData[5]) < Convert.ToInt32(capData[1]) || Convert.ToInt32(capData[5]) < Convert.ToInt32(capData[3]))
-                                weightedScore = Convert.ToInt32(capData[1]) * HateSpeechWeight + Convert.ToInt32(capData[3]) * OffensiveLanguageWeight;
-                            posts.Add(new Post(Convert.ToDouble(weightedScore), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
+                        List<Account> accounts = new List<Account>();
+                        StreamReader readerImage = new StreamReader(imageTextFile);
+                        StreamReader readerCap = new StreamReader(captionTextFile);
+                        string username = readerImage.ReadLine();
+                        readerCap.ReadLine();
+                        List<Post> posts = new List<Post>();
 
+                        while (!readerImage.EndOfStream && !readerCap.EndOfStream)
+                        {
+                            string dataCap = readerCap.ReadLine().Trim();
+                            string current = readerImage.ReadLine();
+                            if (!current.Contains(' '))
+                            {
+                                this.suspects.Add(new Account(posts, username));
+                                username = current;
+                                posts = new List<Post>();
+                            }
+                            else
+                            {
+                                string[] dataImage = current.Split(' ');
+                                string[] capData = dataCap.Split(' ');
+                                double weightedScore = //0;
+                                //if (Convert.ToDouble(capData[5]) < (Convert.ToDouble(capData[1]) + Convert.ToDouble(capData[3])) * 1.5)
+                                    weightedScore = Convert.ToDouble(capData[1]) * HateSpeechWeight + Convert.ToDouble(capData[3]) * OffensiveLanguageWeight; //- Convert.ToDouble(capData[5]) * .2;
+                                posts.Add(new Post(Convert.ToDouble(weightedScore), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
+
+                            }
                         }
+                        this.suspects.Add(new Account(posts, username));
+                        break;
                     }
-                    this.suspects.Add(new Account(posts, username));
-                    notFinished = false;
-                }
-                catch
-                {
-
+                    catch (Exception ex)
+                    {
+                        string test = ex.Message.ToString();
+                    }
                 }
             }
            

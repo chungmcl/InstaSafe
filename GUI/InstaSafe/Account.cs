@@ -13,13 +13,13 @@ namespace InstaSafe
 
     public class Account : IComparable
     {
-        private const double PastMonthWeight = .6;
-        private const double PastThreeWeight = .25;
-        private const double PastSixWeight = .1;
-        private const double PastYearWeight = .04;
-        private const double OverYearWeight = .01;
+        private const double PastMonthWeight = 1;//.6;
+        private const double PastThreeWeight = 1;//.25;
+        private const double PastSixWeight = 1;//.1;
+        private const double PastYearWeight = 1;//.04;
+        private const double OverYearWeight = 1;//.01;
         private const double CaptionWeight = .5;
-        private const double ImageWeight = .5;
+        private const double ImageWeight = 2;
         public List<Post> Posts { get; set; }
         private double[] thresholdAverageSeverities = new double[5];
         public double OverallUserSeverity { get; set; }
