@@ -25,6 +25,7 @@ namespace InstaSafe
             for (int i = 0; i < account.Posts.Count(); i++)
             {
                 this.DataGrid.Items.Add(account.Posts[i]);
+                this.LabelUsername.Content = $"Post details for: {account.Username}";
             }
         }
     }

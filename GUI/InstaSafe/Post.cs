@@ -23,6 +23,15 @@ namespace InstaSafe
         /// </summary>
         public DateTime Date { get; set; }
 
+        public string DateString
+        {
+            get
+            {
+                return this.Date.ToShortDateString();
+            }
+        }
+
+
         public PostThreshold DateThreshold { get; set; }
 
         /// <summary>

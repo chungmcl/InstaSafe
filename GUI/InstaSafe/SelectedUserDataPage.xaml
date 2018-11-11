@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InstaSafe"
         mc:Ignorable="d"
-        Title="SelectedUserDataPage" Height="356.2" Width="513.2">
+        Title="SelectedUserDataPage" Height="356.3" Width="523.1">
     <Grid>
-        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="295" Margin="10,10,0,0" VerticalAlignment="Top" Width="488">
+        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="290" Margin="20,31,0,0" VerticalAlignment="Top" Width="470">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date, Mode=OneWay}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Risk" Binding="{Binding OverallUserSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding DateString, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Risk" Binding="{Binding OverallSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Caption Risk" Binding="{Binding CaptionBad, Mode=OneWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Image Risk" Binding="{Binding ImageSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Label x:Name="LabelUsername" Content="" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.854,0.586"/>
 
     </Grid>
 </Window>
