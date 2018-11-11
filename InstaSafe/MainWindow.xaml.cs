@@ -15,6 +15,11 @@ using System.Windows.Shapes;
 
 namespace InstaSafe
 {
+    enum PostThreshold
+    {
+        PastMonth, PastThree, PastSix, PastYear, OverYear
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
