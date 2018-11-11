@@ -25,6 +25,7 @@ namespace InstaSafe
     /// </summary>
     public partial class MainWindow : Window
     {
+        //
         private const double PastMonthWeight = .6;
         private const double PastThreeWeight = .25;
         private const double PastSixWeight = .1;
