@@ -28,7 +28,7 @@ namespace InstaSafe
         /// <summary>
         /// The overall severity of the post;
         /// </summary>
-        public int overallSeverity { get; set; }
+        public double overallSeverity { get; set; }
 
         public Post(bool setCapt, double setImg, DateTime setDate)
         {
