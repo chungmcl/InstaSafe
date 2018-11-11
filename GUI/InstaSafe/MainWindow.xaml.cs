@@ -48,11 +48,13 @@ namespace InstaSafe
         private void LoadAccounts(string imageTextFile, string captionTextFile)
         {
             // Have python generate ImageData.txt and CaptionData.txt from usernames.txt
-            if (File.Exists(imageTextFile) && File.Exists(captionTextFile))
-            {
-                File.Delete(imageTextFile);
-                File.Delete(captionTextFile);
-            }
+            string path = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString();
+            System.Diagnostics.Process.Start(path + @"\InstagramScraper.py");
+            //if (File.Exists(imageTextFile) && File.Exists(captionTextFile))
+            //{
+            //    File.Delete(imageTextFile);
+            //    File.Delete(captionTextFile);
+            //}
             bool notFinished = true;
             while (notFinished)
             {
