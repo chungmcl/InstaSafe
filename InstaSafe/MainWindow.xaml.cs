@@ -12,30 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace InstaSafe
 {
-    enum PostThreshold
-    {
-        PastMonth, PastThree, PastSix, PastYear, OverYear
-    }
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        //
-        private const double PastMonthWeight = .6;
-        private const double PastThreeWeight = .25;
-        private const double PastSixWeight = .1;
-        private const double PastYearWeight = .04;
-        private const double OverYearWeight = .01;
 
-        List<string[]> suspects;
-        List<Post> posts;
-        double[] thresholdAverageSeverities = new double[5];
-        double overallUserSeverity;
+        List<Account> suspects;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -43,136 +31,36 @@ namespace InstaSafe
 
         private void ButtonGenerateData_Click(object sender, RoutedEventArgs e)
         {
-            string[] usernames = this.TextBoxUsernames.Text.Split(',');
-            foreach (string username in usernames)
-            {
-                username.Trim();
-            }
-
-
+            //string[] usernames = this.TextBoxUsernames.Text.Split(',');
+            //foreach (string username in usernames)
+            //{
+            //    username.Trim();
+            //    LoadAccounts(username);
+            //}
             // Pass all usernames to python algorithm
             // Save all usernames to text file
+            LoadAccounts("C:\\Users\\chung\\Desktop\\ImageTestFile.txt", "C:\\Users\\chung\\Desktop\\CaptionTestFile.txt");
         }
 
-        private void OrganizePostDateThresholds()
+        private void LoadAccounts(string imageTextFile, string captionTextFile)
         {
-            for (int i = 0; i < this.posts.Count(); i++)
+            List<Account> accounts = new List<Account>();
+            StreamReader readerImage = new StreamReader(imageTextFile);
+            StreamReader readerCap = new StreamReader(captionTextFile);
+            string username;
+            while (!readerImage.EndOfStream && !readerCap.EndOfStream)
             {
-                double howLongAgo = (DateTime.Now - this.posts[i].Date).TotalDays;
-
-                // 0 is highest severity, 4 is lowest
-                this.posts[i].DateThreshold = PostThreshold.OverYear;
-                // Within a year
-                if (howLongAgo <= 365)
+                List<Post> posts = new List<Post>();
+                string current = readerImage.ReadLine();
+                if (!current.Contains(','))
                 {
-                    this.posts[i].DateThreshold = PostThreshold.PastYear;
+                    username = current;
                 }
-                // Within half a year
-                if (howLongAgo <= 182)
-                {
-                    this.posts[i].DateThreshold = PostThreshold.PastSix;
-                }
-                // Within three months
-                else if (howLongAgo <= 93)
-                {
-                    this.posts[i].DateThreshold = PostThreshold.PastThree;
-                }
-                // Within a month
-                if (howLongAgo <= 31)
-                {
-                    this.posts[i].DateThreshold = PostThreshold.PastMonth;
-                }
+                string[] dataImage = readerImage.ReadLine().Split(',');
+                string dataCap = readerCap.ReadLine().Trim();
+                posts.Add(new Post((dataCap == "1"), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
+                this.suspects.Add(new Account(posts));
             }
-        }
-
-        private void LoadData()
-        {
-
-        }
-
-        private void PostData()
-        {
-
-        }
-
-        private void SetAllSeverity()
-        {
-            for (int i = 0; i < this.posts.Count; i++)
-            {
-                this.posts[i].overallSeverity = (CompareCaptSeverity(this.posts[i].CaptionBad) + CompareImgSeverity(this.posts[i].ImageSeverity));
-            }
-        }
-
-        private int CompareCaptSeverity(bool capt)
-        {
-            if (capt)
-                return 4;
-            else
-                return 0;
-        }
-
-        private int CompareImgSeverity(double img)
-        {
-            if (img >= 75)
-                return 3;
-            else if (img < 75 && img >= 50)
-                return 2;
-            else if (img < 50 && img >= 25)
-                return 1;
-            else
-                return 0;
-        }
-
-        private void CalculateThresholdAverages()
-        {
-            int[] totalPosts = new int[5];
-            foreach(Post post in this.posts)
-            {
-                totalPosts[(int)post.DateThreshold]++;
-                this.thresholdAverageSeverities[(int)post.DateThreshold] += post.overallSeverity;
-            }
-            for(int i = 0; i < thresholdAverageSeverities.Length; i++)
-            {
-                this.thresholdAverageSeverities[i] /= totalPosts[i];
-            }
-        }
-
-        private void OverallUserSeverity()
-        {
-            this.overallUserSeverity = thresholdAverageSeverities[0] * PastMonthWeight + thresholdAverageSeverities[1] * PastThreeWeight
-                + thresholdAverageSeverities[2] * PastSixWeight + thresholdAverageSeverities[3] * PastYearWeight + thresholdAverageSeverities[4] * OverYearWeight;
-        }
-    }
-
-    class Post
-    {
-        /// <summary>
-        /// Whether the caption is considered to have risk or not
-        /// </summary>
-        public bool CaptionBad { get; set; }
-
-        /// <summary>
-        /// The severity score of the image posted
-        /// </summary>
-        public double ImageSeverity { get; set; }
-
-        /// <summary>
-        /// The date the post was made on.
-        /// </summary>
-        public DateTime Date { get; set; }
-
-        public PostThreshold DateThreshold { get; set; }
-
-        /// <summary>
-        /// The overall severity of the post;
-        /// </summary>
-        public int overallSeverity { get; set; }
-
-        public Post(bool setCapt, double setImg, DateTime setDate)
-        {
-            this.CaptionBad = setCapt;
-            this.ImageSeverity = setImg;
-            this.Date = setDate;
         }
     }
 }
