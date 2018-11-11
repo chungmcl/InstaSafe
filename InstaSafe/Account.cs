@@ -92,6 +92,8 @@ namespace InstaSafe
             for (int i = 0; i < thresholdAverageSeverities.Length; i++)
             {
                 this.thresholdAverageSeverities[i] /= totalPosts[i];
+                if (totalPosts[i] == 0)
+                    this.thresholdAverageSeverities[i] = 0;
             }
         }
 

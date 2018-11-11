@@ -40,7 +40,7 @@ namespace InstaSafe
             //}
             // Pass all usernames to python algorithm
             // Save all usernames to text file
-            LoadAccounts("C:\\Users\\chung\\Desktop\\ImageTestFile.txt", "C:\\Users\\chung\\Desktop\\CaptionTestFile.txt");
+            LoadAccounts("C:\\Users\\TimHe\\Desktop\\ImageTestFile.txt", "C:\\Users\\TimHe\\Desktop\\CaptionTestFile.txt");
         }
 
         private void LoadAccounts(string imageTextFile, string captionTextFile)
@@ -63,7 +63,7 @@ namespace InstaSafe
                 }
                 else
                 {
-                    string[] dataImage = readerImage.ReadLine().Split(' ');
+                    string[] dataImage = current.Split(' ');
                     string dataCap = readerCap.ReadLine().Trim();
                     posts.Add(new Post((dataCap == "1"), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
                     
