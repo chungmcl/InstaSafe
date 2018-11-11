@@ -40,6 +40,37 @@ namespace InstaSafe
             // Save all usernames to text file
         }
 
+        private void OrganizePostDateThresholds()
+        {
+            for (int i = 0; i < this.posts.Count(); i++)
+            {
+                double howLongAgo = (DateTime.Now - this.posts[i].GetDate()).TotalDays;
+
+                // 0 is highest severity, 4 is lowest
+                this.posts[i].recencySeverity = 4;
+                // Within a year
+                if (howLongAgo <= 365)
+                {
+                    this.posts[i].recencySeverity = 3;
+                }
+                // Within half a year
+                if (howLongAgo <= 182)
+                {
+                    this.posts[i].recencySeverity = 2;
+                }
+                // Within three months
+                else if (howLongAgo <= 93)
+                {
+                    this.posts[i].recencySeverity = 1;
+                }
+                // Within a month
+                if (howLongAgo <= 31)
+                {
+                    this.posts[i].recencySeverity = 0;
+                }
+            }
+        }
+
         private void LoadData()
         {
 
@@ -64,7 +95,7 @@ namespace InstaSafe
         }
     }
 
-    struct Post
+    class Post
     {
         /// <summary>
         /// Whether the caption is considered to have risk or not
@@ -80,6 +111,8 @@ namespace InstaSafe
         /// The date the post was made on.
         /// </summary>
         private DateTime date;
+
+        public int recencySeverity { get; set; }
 
         /// <summary>
         /// Sets the caption severity as a true or false
