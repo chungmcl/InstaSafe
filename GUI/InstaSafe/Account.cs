@@ -19,57 +19,57 @@ namespace InstaSafe
         private const double PastYearWeight = .04;
         private const double OverYearWeight = .01;
         private const double CaptionWeight = 1;
-        private List<Post> posts;
+        public List<Post> Posts { get; set; }
         private double[] thresholdAverageSeverities = new double[5];
-        public double overallUserSeverity { get; set; }
-        public string username { get; set; }
+        public double OverallUserSeverity { get; set; }
+        public string Username { get; set; }
 
         public Account(List<Post> addPosts, string username)
         {
-            this.posts = addPosts;
-            this.username = username;
-            SetAllSeverity();
-            OrganizePostDateThresholds();
-            CalculateThresholdAverages();
-            OverallUserSeverity();
+            this.Posts = addPosts;
+            this.Username = username;
+            this.SetAllSeverity();
+            this.OrganizePostDateThresholds();
+            this.CalculateThresholdAverages();
+            this.CalculateOverallUserSeverity();
         }
 
         private void OrganizePostDateThresholds()
         {
-            for (int i = 0; i < this.posts.Count(); i++)
+            for (int i = 0; i < this.Posts.Count(); i++)
             {
-                double howLongAgo = (DateTime.Now - this.posts[i].Date).TotalDays;
+                double howLongAgo = (DateTime.Now - this.Posts[i].Date).TotalDays;
 
                 // 0 is highest severity, 4 is lowest
-                this.posts[i].DateThreshold = PostThreshold.OverYear;
+                this.Posts[i].DateThreshold = PostThreshold.OverYear;
                 // Within a year
                 if (howLongAgo <= 365)
                 {
-                    this.posts[i].DateThreshold = PostThreshold.PastYear;
+                    this.Posts[i].DateThreshold = PostThreshold.PastYear;
                 }
                 // Within half a year
                 if (howLongAgo <= 182)
                 {
-                    this.posts[i].DateThreshold = PostThreshold.PastSix;
+                    this.Posts[i].DateThreshold = PostThreshold.PastSix;
                 }
                 // Within three months
                 else if (howLongAgo <= 93)
                 {
-                    this.posts[i].DateThreshold = PostThreshold.PastThree;
+                    this.Posts[i].DateThreshold = PostThreshold.PastThree;
                 }
                 // Within a month
                 if (howLongAgo <= 31)
                 {
-                    this.posts[i].DateThreshold = PostThreshold.PastMonth;
+                    this.Posts[i].DateThreshold = PostThreshold.PastMonth;
                 }
             }
         }
 
         private void SetAllSeverity()
         {
-            for (int i = 0; i < this.posts.Count; i++)
+            for (int i = 0; i < this.Posts.Count; i++)
             {
-                this.posts[i].overallSeverity = CompareCaptSeverity(this.posts[i].CaptionBad) + this.posts[i].ImageSeverity;
+                this.Posts[i].OverallSeverity = this.CompareCaptSeverity(this.Posts[i].CaptionBad) + this.Posts[i].ImageSeverity;
             }
         }
 
@@ -84,12 +84,12 @@ namespace InstaSafe
         private void CalculateThresholdAverages()
         {
             int[] totalPosts = new int[5];
-            foreach (Post post in this.posts)
+            foreach (Post post in this.Posts)
             {
                 totalPosts[(int)post.DateThreshold]++;
-                this.thresholdAverageSeverities[(int)post.DateThreshold] += post.overallSeverity;
+                this.thresholdAverageSeverities[(int)post.DateThreshold] += post.OverallSeverity;
             }
-            for (int i = 0; i < thresholdAverageSeverities.Length; i++)
+            for (int i = 0; i < this.thresholdAverageSeverities.Length; i++)
             {
                 this.thresholdAverageSeverities[i] /= totalPosts[i];
                 if (totalPosts[i] == 0)
@@ -97,15 +97,15 @@ namespace InstaSafe
             }
         }
 
-        private void OverallUserSeverity()
+        private void CalculateOverallUserSeverity()
         {
-            this.overallUserSeverity = thresholdAverageSeverities[0] * PastMonthWeight + thresholdAverageSeverities[1] * PastThreeWeight
-                + thresholdAverageSeverities[2] * PastSixWeight + thresholdAverageSeverities[3] * PastYearWeight + thresholdAverageSeverities[4] * OverYearWeight;
+            this.OverallUserSeverity = this.thresholdAverageSeverities[0] * PastMonthWeight + this.thresholdAverageSeverities[1] * PastThreeWeight
+                + this.thresholdAverageSeverities[2] * PastSixWeight + this.thresholdAverageSeverities[3] * PastYearWeight + this.thresholdAverageSeverities[4] * OverYearWeight;
         }
 
         public int CompareTo(object other)
         {
-            return ((Account)other).overallUserSeverity.CompareTo(this.overallUserSeverity);
+            return ((Account)other).OverallUserSeverity.CompareTo(this.OverallUserSeverity);
         }
     }
 }

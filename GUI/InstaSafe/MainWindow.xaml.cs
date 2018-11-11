@@ -39,7 +39,7 @@ namespace InstaSafe
             for (int i = 0; i < usernames.Length; i++)
             {
                 usernames[i] = usernames[i].Trim();
-                streamWriter.WriteLine(usernames[i]);
+                streamWriter.WriteLine(usernames[i] + ";");
             }
             streamWriter.Close();
             // Have python generate ImageData.txt and CaptionData.txt from usernames.txt
@@ -78,6 +78,18 @@ namespace InstaSafe
                 }
             }
             this.suspects.Add(new Account(posts, username));
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<Account> selectedAccounts = new List<Account>();
+            // Load all the items that the user selects
+            for (int i = 0; i < this.DataGrid.SelectedItems.Count; i++)
+            {
+                selectedAccounts.Add((Account)this.DataGrid.SelectedItems[i]);
+                SelectedUserDataPage selectedUserDataPage = new SelectedUserDataPage(selectedAccounts[0]);
+                selectedUserDataPage.Show();
+            }
         }
     }
 }
