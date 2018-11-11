@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InstaSafe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="591.6" Width="1085.6">
     <Grid>
-        
+
+        <DataGrid HorizontalAlignment="Left" Height="295" Margin="10,257,0,0" VerticalAlignment="Top" Width="582">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Username" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Severity Level" IsReadOnly="True" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBox x:Name="TextBoxUsernames" HorizontalAlignment="Left" Height="47" Margin="10,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="488"
+                 Text=""
+                 />
+        <Label Content="Enter list of usernames, separated by commas" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Height="29"/>
+        <Button x:Name="ButtonGenerateData" Content="Generate Data&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.403,0.51" Height="20" Click="ButtonGenerateData_Click"/>
     </Grid>
 </Window>
