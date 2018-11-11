@@ -117,7 +117,16 @@ namespace InstaSafe
 
         private void CalculateThresholdAverages()
         {
-
+            int[] totalPosts = new int[5];
+            foreach(Post post in this.posts)
+            {
+                totalPosts[(int)post.DateThreshold]++;
+                this.thresholdAverageSeverities[(int)post.DateThreshold] += post.overallSeverity;
+            }
+            for(int i = 0; i < thresholdAverageSeverities.Length; i++)
+            {
+                this.thresholdAverageSeverities[i] /= totalPosts[i];
+            }
         }
     }
 
