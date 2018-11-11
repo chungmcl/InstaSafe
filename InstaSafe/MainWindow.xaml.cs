@@ -27,6 +27,7 @@ namespace InstaSafe
     {
         List<string[]> suspects;
         List<Post> posts;
+        int[] thresholdAverageSeverities = new int[5];
         public MainWindow()
         {
             this.InitializeComponent();
@@ -49,7 +50,7 @@ namespace InstaSafe
         {
             for (int i = 0; i < this.posts.Count(); i++)
             {
-                double howLongAgo = (DateTime.Now - this.posts[i].GetDate()).TotalDays;
+                double howLongAgo = (DateTime.Now - this.posts[i].Date).TotalDays;
 
                 // 0 is highest severity, 4 is lowest
                 this.posts[i].RecencySeverity = 4;
@@ -120,6 +121,11 @@ namespace InstaSafe
                 return 1;
             else
                 return 0;
+        }
+
+        private void CalculateThresholdAverages()
+        {
+
         }
     }
 
