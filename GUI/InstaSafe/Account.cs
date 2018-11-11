@@ -11,7 +11,7 @@ namespace InstaSafe
         PastMonth, PastThree, PastSix, PastYear, OverYear
     }
 
-    public class Account
+    public class Account : IComparable
     {
         private const double PastMonthWeight = .6;
         private const double PastThreeWeight = .25;
@@ -21,8 +21,8 @@ namespace InstaSafe
         private const double CaptionWeight = 1;
         private List<Post> posts;
         private double[] thresholdAverageSeverities = new double[5];
-        public double overallUserSeverity;
-        public string username;
+        public double overallUserSeverity { get; set; }
+        public string username { get; set; }
 
         public Account(List<Post> addPosts, string username)
         {
@@ -101,6 +101,11 @@ namespace InstaSafe
         {
             this.overallUserSeverity = thresholdAverageSeverities[0] * PastMonthWeight + thresholdAverageSeverities[1] * PastThreeWeight
                 + thresholdAverageSeverities[2] * PastSixWeight + thresholdAverageSeverities[3] * PastYearWeight + thresholdAverageSeverities[4] * OverYearWeight;
+        }
+
+        public int CompareTo(object other)
+        {
+            return ((Account)other).overallUserSeverity.CompareTo(this.overallUserSeverity);
         }
     }
 }

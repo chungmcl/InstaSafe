@@ -28,7 +28,7 @@ namespace InstaSafe
         public MainWindow()
         {
             this.InitializeComponent();
-            suspects = new List<Account>();
+            this.suspects = new List<Account>();
         }
 
         private void ButtonGenerateData_Click(object sender, RoutedEventArgs e)
@@ -36,14 +36,19 @@ namespace InstaSafe
             string[] usernames = this.TextBoxUsernames.Text.Split(',');
             string currentFolderPath = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString();
             StreamWriter streamWriter = new StreamWriter(currentFolderPath + "\\usernames.txt");
-            foreach (string username in usernames)
+            for (int i = 0; i < usernames.Length; i++)
             {
-                streamWriter.WriteLine(username);
-                username.Trim();
+                usernames[i] = usernames[i].Trim();
+                streamWriter.WriteLine(usernames[i]);
             }
             streamWriter.Close();
             // Have python generate ImageData.txt and CaptionData.txt from usernames.txt
-            LoadAccounts($"{currentFolderPath}\\ImageData.txt", $"{currentFolderPath}\\CaptionData.txt");
+            this.LoadAccounts($"{currentFolderPath}\\ImageData.txt", $"{currentFolderPath}\\CaptionData.txt");
+            this.suspects.Sort();
+            foreach (Account account in this.suspects)
+            {
+                this.DataGrid.Items.Add(account);
+            }
         }
 
         private void LoadAccounts(string imageTextFile, string captionTextFile)

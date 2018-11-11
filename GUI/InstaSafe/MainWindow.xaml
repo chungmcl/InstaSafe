@@ -8,10 +8,10 @@
         Title="MainWindow" Height="591.6" Width="1085.6">
     <Grid>
 
-        <DataGrid HorizontalAlignment="Left" Height="295" Margin="10,257,0,0" VerticalAlignment="Top" Width="582">
+        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="295" Margin="10,257,0,0" VerticalAlignment="Top" Width="582">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Username" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Severity Level" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding username, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Severity Level" Binding="{Binding overallUserSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
