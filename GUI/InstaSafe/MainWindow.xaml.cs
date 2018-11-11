@@ -55,6 +55,7 @@ namespace InstaSafe
 
             while (!readerImage.EndOfStream && !readerCap.EndOfStream)
             {
+                string dataCap = readerCap.ReadLine().Trim();
                 string current = readerImage.ReadLine();
                 if (!current.Contains(' '))
                 {
@@ -65,8 +66,7 @@ namespace InstaSafe
                 else
                 {
                     string[] dataImage = current.Split(' ');
-                    string dataCap = readerCap.ReadLine().Trim();
-                    posts.Add(new Post((dataCap == "1"), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
+                    posts.Add(new Post(Convert.ToDouble(dataCap), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
                     
                 }
             }
