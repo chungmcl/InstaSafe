@@ -18,7 +18,8 @@ namespace InstaSafe
         private const double PastSixWeight = .1;
         private const double PastYearWeight = .04;
         private const double OverYearWeight = .01;
-        private const double CaptionWeight = 1;
+        private const double CaptionWeight = .5;
+        private const double ImageWeight = .5;
         public List<Post> Posts { get; set; }
         private double[] thresholdAverageSeverities = new double[5];
         public double OverallUserSeverity { get; set; }
@@ -69,16 +70,8 @@ namespace InstaSafe
         {
             for (int i = 0; i < this.Posts.Count; i++)
             {
-                this.Posts[i].OverallSeverity = this.CompareCaptSeverity(this.Posts[i].CaptionBad) + this.Posts[i].ImageSeverity;
+                this.Posts[i].OverallSeverity = this.Posts[i].CaptionBad * CaptionWeight + this.Posts[i].ImageSeverity * ImageWeight;
             }
-        }
-
-        private double CompareCaptSeverity(bool capt)
-        {
-            if (capt)
-                return CaptionWeight;
-            else
-                return 0;
         }
 
         private void CalculateThresholdAverages()
