@@ -52,26 +52,26 @@ namespace InstaSafe
                 double howLongAgo = (DateTime.Now - this.posts[i].GetDate()).TotalDays;
 
                 // 0 is highest severity, 4 is lowest
-                this.posts[i].recencySeverity = 4;
+                this.posts[i].RecencySeverity = 4;
                 // Within a year
                 if (howLongAgo <= 365)
                 {
-                    this.posts[i].recencySeverity = 3;
+                    this.posts[i].RecencySeverity = 3;
                 }
                 // Within half a year
                 if (howLongAgo <= 182)
                 {
-                    this.posts[i].recencySeverity = 2;
+                    this.posts[i].RecencySeverity = 2;
                 }
                 // Within three months
                 else if (howLongAgo <= 93)
                 {
-                    this.posts[i].recencySeverity = 1;
+                    this.posts[i].RecencySeverity = 1;
                 }
                 // Within a month
                 if (howLongAgo <= 31)
                 {
-                    this.posts[i].recencySeverity = 0;
+                    this.posts[i].RecencySeverity = 0;
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace InstaSafe
         {
             for (int i = 0; i < this.posts.Count; i++)
             {
-                this.posts[i].overallSeverity = (CompareCaptSeverity(this.posts[i].captionBad) + CompareImgSeverity(this.posts[i].imageSeverity));
+                this.posts[i].overallSeverity = (CompareCaptSeverity(this.posts[i].CaptionBad) + CompareImgSeverity(this.posts[i].ImageSeverity));
             }
         }
 
@@ -128,19 +128,19 @@ namespace InstaSafe
         /// <summary>
         /// Whether the caption is considered to have risk or not
         /// </summary>
-        public bool captionBad { get; set; }
+        public bool CaptionBad { get; set; }
 
         /// <summary>
         /// The severity score of the image posted
         /// </summary>
-        public double imageSeverity { get; set; }
+        public double ImageSeverity { get; set; }
 
         /// <summary>
         /// The date the post was made on.
         /// </summary>
-        public DateTime date { get; set; }
+        public DateTime Date { get; set; }
 
-        public int recencySeverity { get; set; }
+        public int RecencySeverity { get; set; }
 
         /// <summary>
         /// The overall severity of the post;
@@ -149,9 +149,9 @@ namespace InstaSafe
 
         public Post(bool setCapt, double setImg, DateTime setDate)
         {
-            this.captionBad = setCapt;
-            this.imageSeverity = setImg;
-            this.date = setDate;
+            this.CaptionBad = setCapt;
+            this.ImageSeverity = setImg;
+            this.Date = setDate;
         }
     }
 }
