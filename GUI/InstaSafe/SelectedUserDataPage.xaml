@@ -5,9 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InstaSafe"
         mc:Ignorable="d"
-        Title="SelectedUserDataPage" Height="356.3" Width="523.1">
+        Title="SelectedUserDataPage" Height="361.3" Width="521.6">
     <Grid>
-        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="290" Margin="20,31,0,0" VerticalAlignment="Top" Width="470">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFE26D5B" Offset="0"/>
+                <GradientStop Color="#FFE2C99C" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Image Margin="434,1,45,275" Source="lock.png" Stretch="Fill">
+            <Image.Effect>
+                <DropShadowEffect Color="#FF727272" ShadowDepth="1"/>
+            </Image.Effect>
+        </Image>
+        <Label x:Name="LabelUsername" Content="" HorizontalAlignment="Left" Margin="200,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.854,0.586">
+            <Label.Effect>
+                <DropShadowEffect BlurRadius="9" Color="#FF595959" ShadowDepth="1"/>
+            </Label.Effect>
+        </Label>
+        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="290" Margin="20,31,0,0" VerticalAlignment="Top" Width="470" BorderBrush="{x:Null}" Foreground="#FF363636">
+            <DataGrid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                    <GradientStop Color="#FFC3C3C3" Offset="1"/>
+                </LinearGradientBrush>
+            </DataGrid.Background>
+            <DataGrid.Effect>
+                <DropShadowEffect Color="#FF838080" BlurRadius="10"/>
+            </DataGrid.Effect>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Date" Binding="{Binding DateString, Mode=OneWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Risk" Binding="{Binding OverallSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
@@ -15,7 +40,6 @@
                 <DataGridTextColumn Header="Image Risk" Binding="{Binding ImageSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="LabelUsername" Content="" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.854,0.586"/>
 
     </Grid>
 </Window>

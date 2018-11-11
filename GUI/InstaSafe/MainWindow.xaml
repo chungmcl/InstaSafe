@@ -5,10 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InstaSafe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="506.4" Width="528.2" ResizeMode="CanMinimize">
-    <Grid Margin="0,0,13.8,5.4">
-
-        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="295" Margin="10,166,-0.4,0" VerticalAlignment="Top" Width="483" SelectionChanged="DataGrid_SelectionChanged">
+        Title="MainWindow" Height="505.201" Width="526.471" ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FFF3C767" Offset="0.997"/>
+                <GradientStop Color="#FFEE7272"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Image Margin="400,19,59,372" Source="lock.png" Stretch="Fill">
+            <Image.Effect>
+                <DropShadowEffect Color="#FF727272" ShadowDepth="1" BlurRadius="8"/>
+            </Image.Effect>
+        </Image>
+        <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="295" Margin="10,166,-0.4,0" VerticalAlignment="Top" Width="483" SelectionChanged="DataGrid_SelectionChanged" Foreground="#FF303030" BorderBrush="{x:Null}">
+            <DataGrid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFECECEC" Offset="0"/>
+                    <GradientStop Color="#FFD4D4D4" Offset="1"/>
+                </LinearGradientBrush>
+            </DataGrid.Background>
+            <DataGrid.Effect>
+                <DropShadowEffect BlurRadius="10" Color="#FF979797" ShadowDepth="7"/>
+            </DataGrid.Effect>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Username" Binding="{Binding Username, Mode=OneWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Severity Level" Binding="{Binding OverallUserSeverity, Mode=OneWay}" IsReadOnly="True" Width="*"/>
@@ -16,10 +35,50 @@
         </DataGrid>
 
         <TextBox x:Name="TextBoxUsernames" HorizontalAlignment="Left" Height="47" Margin="10,89,-0.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="483"
-                 Text=""
-                 />
-        <Label Content="Enter list of usernames, separated by commas" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Height="29"/>
-        <Button x:Name="ButtonGenerateData" Content="Generate Data&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="115" RenderTransformOrigin="0.403,0.51" Height="20" Click="ButtonGenerateData_Click"/>
-        <Label Content="InstaSafe" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="60" Height="25"/>
+                 Text="" Foreground="#FF323232" BorderBrush="{x:Null}"
+                 >
+            <TextBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFF9F9F9" Offset="0"/>
+                    <GradientStop Color="#FFD4D4D4" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.Background>
+            <TextBox.Effect>
+                <DropShadowEffect BlurRadius="10" Color="#FF838383"/>
+            </TextBox.Effect>
+        </TextBox>
+        <Label Content="Enter list of usernames, separated by commas" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Height="29" Foreground="WhiteSmoke" Background="{x:Null}" FontSize="14">
+            <Label.Effect>
+                <DropShadowEffect BlurRadius="9" Color="#FF7A7A7A" ShadowDepth="1"/>
+            </Label.Effect>
+        </Label>
+        <Button x:Name="ButtonGenerateData" Content="Generate Data&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="115" RenderTransformOrigin="0.403,0.51" Height="20" Click="ButtonGenerateData_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFEEEEEE" Offset="0"/>
+                    <GradientStop Color="#FFC9C9C9" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+            <Button.Effect>
+                <DropShadowEffect Color="#FF8B8B8B" ShadowDepth="3" BlurRadius="9"/>
+            </Button.Effect>
+        </Button>
+        <Label Content="InstaSafe" HorizontalAlignment="Left" Margin="175,5,0,0" VerticalAlignment="Top" Width="152" Height="55" FontFamily="Segoe UI Light" FontSize="36" Background="{x:Null}" Foreground="White">
+            <Label.Effect>
+                <DropShadowEffect BlurRadius="9"/>
+            </Label.Effect>
+        </Label>
+        <Button x:Name="Link" Content="Website" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="69" Height="18" FontSize="9" Foreground="White" BorderBrush="{x:Null}">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF9B9B9B" ShadowDepth="1"/>
+            </Button.Effect>
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF595959" Offset="0"/>
+                    <GradientStop Color="#FF444444" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+
     </Grid>
 </Window>
