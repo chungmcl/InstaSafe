@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Reflection;
 
 namespace InstaSafe
 {
@@ -32,15 +33,17 @@ namespace InstaSafe
 
         private void ButtonGenerateData_Click(object sender, RoutedEventArgs e)
         {
-            //string[] usernames = this.TextBoxUsernames.Text.Split(',');
-            //foreach (string username in usernames)
-            //{
-            //    username.Trim();
-            //    LoadAccounts(username);
-            //}
-            // Pass all usernames to python algorithm
-            // Save all usernames to text file
-            LoadAccounts("C:\\Users\\TimHe\\Desktop\\ImageTestFile.txt", "C:\\Users\\TimHe\\Desktop\\CaptionTestFile.txt");
+            string[] usernames = this.TextBoxUsernames.Text.Split(',');
+            string currentFolderPath = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString();
+            StreamWriter streamWriter = new StreamWriter(currentFolderPath + "\\usernames.txt");
+            foreach (string username in usernames)
+            {
+                streamWriter.WriteLine(username);
+                username.Trim();
+            }
+            streamWriter.Close();
+            // Have python generate ImageData.txt and CaptionData.txt from usernames.txt
+            LoadAccounts($"{currentFolderPath}\\ImageData.txt", $"{currentFolderPath}\\CaptionData.txt");
         }
 
         private void LoadAccounts(string imageTextFile, string captionTextFile)
