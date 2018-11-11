@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaSafe", "InstaSafe\InstaSafe.csproj", "{954DBCF5-50E2-4FDA-BE74-1364937E4C1B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{824A4177-3431-41D8-A693-6AE91FD7967D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{3325041E-3CDB-452F-A7BF-10B498F60751}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,7 +22,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{954DBCF5-50E2-4FDA-BE74-1364937E4C1B} = {824A4177-3431-41D8-A693-6AE91FD7967D}
+		{954DBCF5-50E2-4FDA-BE74-1364937E4C1B} = {3325041E-3CDB-452F-A7BF-10B498F60751}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C137228-0BC6-465E-A52B-14A386A2F4E4}
