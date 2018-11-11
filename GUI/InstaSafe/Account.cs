@@ -70,7 +70,7 @@ namespace InstaSafe
         {
             for (int i = 0; i < this.Posts.Count; i++)
             {
-                this.Posts[i].OverallSeverity = this.Posts[i].CaptionBad * CaptionWeight + this.Posts[i].ImageSeverity * ImageWeight;
+                this.Posts[i].OverallSeverity = this.Posts[i].CaptionSeverity * CaptionWeight + this.Posts[i].ImageSeverity * ImageWeight;
             }
         }
 
