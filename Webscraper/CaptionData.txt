@@ -1,0 +1,26 @@
+kyle_mumma
+hate_speech 3.53, offensive_language 32.23, neither 64.24
+hate_speech 3.87, offensive_language 29.91, neither 66.22
+hate_speech 2.76, offensive_language 39.47, neither 57.77
+hate_speech 3.58, offensive_language 31.90, neither 64.52
+hate_speech 6.77, offensive_language 24.08, neither 69.15
+hate_speech 3.95, offensive_language 33.04, neither 63.02
+hate_speech 3.05, offensive_language 41.82, neither 55.13
+hate_speech 3.95, offensive_language 33.04, neither 63.02
+hate_speech 3.95, offensive_language 33.04, neither 63.02
+hate_speech 3.95, offensive_language 33.04, neither 63.02
+hate_speech 3.88, offensive_language 31.83, neither 64.29
+hate_speech 3.57, offensive_language 34.96, neither 61.48
+rishabh.jain___
+hate_speech 3.91, offensive_language 33.58, neither 62.50
+hate_speech 3.95, offensive_language 33.04, neither 63.02
+hate_speech 3.95, offensive_language 33.04, neither 63.02
+hate_speech 3.95, offensive_language 33.04, neither 63.02
+codedaytestaccount1
+hate_speech 3.98, offensive_language 33.78, neither 62.25
+hate_speech 3.88, offensive_language 34.08, neither 62.04
+hate_speech 19.17, offensive_language 46.34, neither 34.50
+hate_speech 35.51, offensive_language 30.81, neither 33.68
+hate_speech 4.20, offensive_language 28.74, neither 67.06
+hate_speech 7.17, offensive_language 25.95, neither 66.88
+hate_speech 17.55, offensive_language 21.86, neither 60.59
