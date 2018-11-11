@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InstaSafe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="496.4" Width="513.15">
+        Title="MainWindow" Height="506.4" Width="528.2" ResizeMode="CanMinimize">
     <Grid Margin="0,0,13.8,5.4">
 
         <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="295" Margin="10,166,-0.4,0" VerticalAlignment="Top" Width="483" SelectionChanged="DataGrid_SelectionChanged">
@@ -19,7 +19,7 @@
                  Text=""
                  />
         <Label Content="Enter list of usernames, separated by commas" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Height="29"/>
-        <Button x:Name="ButtonGenerateData" Content="Generate Data&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.403,0.51" Height="20" Click="ButtonGenerateData_Click"/>
+        <Button x:Name="ButtonGenerateData" Content="Generate Data&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="115" RenderTransformOrigin="0.403,0.51" Height="20" Click="ButtonGenerateData_Click"/>
         <Label Content="InstaSafe" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="60" Height="25"/>
     </Grid>
 </Window>

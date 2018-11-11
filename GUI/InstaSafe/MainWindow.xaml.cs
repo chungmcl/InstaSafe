@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace InstaSafe
 {
@@ -25,7 +26,7 @@ namespace InstaSafe
         {
             this.DataGrid.Items.Clear();
             this.suspects.Clear();
-            
+            //WebScraper
             string[] usernames = this.TextBoxUsernames.Text.Split(',');
             string currentFolderPath = Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString();
             StreamWriter streamWriter = new StreamWriter(currentFolderPath + "\\usernames.txt");
@@ -35,8 +36,8 @@ namespace InstaSafe
                 streamWriter.WriteLine(usernames[i] + ";");
             }
             streamWriter.Close();
-            // Have python generate ImageData.txt and CaptionData.txt from usernames.txt
             this.LoadAccounts($"{currentFolderPath}\\ImageData.txt", $"{currentFolderPath}\\CaptionData.txt");
+            //Task loadAccounts = Task.Run(() => this.LoadAccounts($"{currentFolderPath}\\ImageData.txt", $"{currentFolderPath}\\CaptionData.txt"));
             this.suspects.Sort();
             foreach (Account account in this.suspects)
             {
@@ -46,31 +47,50 @@ namespace InstaSafe
 
         private void LoadAccounts(string imageTextFile, string captionTextFile)
         {
-            List<Account> accounts = new List<Account>();
-            StreamReader readerImage = new StreamReader(imageTextFile);
-            StreamReader readerCap = new StreamReader(captionTextFile);
-            string username = readerImage.ReadLine();
-            readerCap.ReadLine();
-            List<Post> posts = new List<Post>();
-
-            while (!readerImage.EndOfStream && !readerCap.EndOfStream)
+            // Have python generate ImageData.txt and CaptionData.txt from usernames.txt
+            if (File.Exists(imageTextFile) && File.Exists(captionTextFile))
             {
-                string dataCap = readerCap.ReadLine().Trim();
-                string current = readerImage.ReadLine();
-                if (!current.Contains(' '))
+                File.Delete(imageTextFile);
+                File.Delete(captionTextFile);
+            }
+            bool notFinished = true;
+            while (notFinished)
+            {
+                try
                 {
+                    List<Account> accounts = new List<Account>();
+                    StreamReader readerImage = new StreamReader(imageTextFile);
+                    StreamReader readerCap = new StreamReader(captionTextFile);
+                    string username = readerImage.ReadLine();
+                    readerCap.ReadLine();
+                    List<Post> posts = new List<Post>();
+
+                    while (!readerImage.EndOfStream && !readerCap.EndOfStream)
+                    {
+                        string dataCap = readerCap.ReadLine().Trim();
+                        string current = readerImage.ReadLine();
+                        if (!current.Contains(' '))
+                        {
+                            this.suspects.Add(new Account(posts, username));
+                            username = current;
+                            posts = new List<Post>();
+                        }
+                        else
+                        {
+                            string[] dataImage = current.Split(' ');
+                            posts.Add(new Post(Convert.ToDouble(dataCap), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
+
+                        }
+                    }
                     this.suspects.Add(new Account(posts, username));
-                    username = current;
-                    posts = new List<Post>();
+                    notFinished = false;
                 }
-                else
+                catch
                 {
-                    string[] dataImage = current.Split(' ');
-                    posts.Add(new Post(Convert.ToDouble(dataCap), Convert.ToDouble(dataImage[1]), Convert.ToDateTime(dataImage[0])));
-                    
+
                 }
             }
-            this.suspects.Add(new Account(posts, username));
+           
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
