@@ -34,7 +34,7 @@ namespace InstaSafe
             {
                 username.Trim();
             }
-            
+
 
             // Pass all usernames to python algorithm
             // Save all usernames to text file
@@ -58,81 +58,60 @@ namespace InstaSafe
 
         }
 
-        private int SeverityOfPost()
+        private void SetAllSeverity()
         {
-            return 0;
+            for (int i = 0; i < this.posts.Count; i++)
+            {
+                this.posts[i].overallSeverity = (CompareCaptSeverity(this.posts[i].captionBad) + CompareImgSeverity(this.posts[i].imageSeverity));
+            }
+        }
+
+        private int CompareCaptSeverity(bool capt)
+        {
+            if (capt)
+                return 4;
+            else
+                return 0;
+        }
+
+        private int CompareImgSeverity(double img)
+        {
+            if (img >= 75)
+                return 3;
+            else if (img < 75 && img >= 50)
+                return 2;
+            else if (img < 50 && img >= 25)
+                return 1;
+            else
+                return 0;
         }
     }
 
-    struct Post
+    class Post
     {
         /// <summary>
         /// Whether the caption is considered to have risk or not
         /// </summary>
-        private bool captionBad;
+        public bool captionBad { get; set; }
 
         /// <summary>
         /// The severity score of the image posted
         /// </summary>
-        private double imageSeverity;
+        public double imageSeverity { get; set; }
 
         /// <summary>
         /// The date the post was made on.
         /// </summary>
-        private DateTime date;
+        public DateTime date { get; set; }
 
         /// <summary>
-        /// Sets the caption severity as a true or false
+        /// The overall severity of the post;
         /// </summary>
-        /// <param name="setTo">Whether the caption contains severity</param>
-        public void SetCaption(bool setTo)
-        {
-            this.captionBad = setTo;
-        }
+        public int overallSeverity { get; set; }
 
-        /// <summary>
-        /// Sets the severity score of the image posted
-        /// </summary>
-        /// <param name="setTo">The severity score of the image</param>
-        public void SetImage(double setTo)
+        public Post()
         {
-            this.imageSeverity = setTo;
-        }
 
-        /// <summary>
-        /// Sets the date of the post
-        /// </summary>
-        /// <param name="setTo">The date the post was made</param>
-        public void SetDate(DateTime setTo)
-        {
-            this.date = setTo;
-        }
-
-        /// <summary>
-        /// Returns whether the caption was risky or not
-        /// </summary>
-        /// <returns>Whether the caption is risky</returns>
-        public bool GetCaption()
-        {
-            return this.captionBad;
-        }
-
-        /// <summary>
-        /// Returns the severity score of the image
-        /// </summary>
-        /// <returns>The severity score of the image</returns>
-        public double GetImage()
-        {
-            return this.imageSeverity;
-        }
-
-        /// <summary>
-        /// Returns the date of the post
-        /// </summary>
-        /// <returns>The date of the post</returns>
-        public DateTime GetDate()
-        {
-            return this.date;
         }
     }
 }
