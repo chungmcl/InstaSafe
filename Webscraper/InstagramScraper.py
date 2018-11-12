@@ -1,9 +1,15 @@
 import json
+import math
 import requests
 from bs4 import BeautifulSoup
 import os
 import subprocess
 from hatesonar import Sonar
+import datetime as dt
+import emoji
+import ctypes
+ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 6 )
+
 
 #gets page html
 def get_html(url):
@@ -71,7 +77,7 @@ def get_profile_captions(profile_username):
         caption = caption_container[caption_container.index(":") + 1 :]
         caption = caption[caption.index(":") + 1 :]
         caption = caption[caption.index("\'") + 1 : caption.index("}") - 1]
-
+        caption = emoji.demojize(caption)
         #adds caption to array of captions
         captions.append(caption)
 
@@ -91,6 +97,18 @@ def get_profile_picture_urls(profile_username):
         picture_urls.append(current_pic_url)
     return picture_urls
 
+def get_profile_picture_dates(profile_username):
+    metrics = get_profile_recent_posts(profile_username)
+
+    picture_dates = []
+
+    #gets caption for each post
+    for post in metrics:
+        post = post.get("node")
+        current_time_stamp = post.get("taken_at_timestamp")
+        picture_dates.append(dt.datetime.fromtimestamp(current_time_stamp).strftime('%m/%d/%Y'))
+    return picture_dates
+
 #image classification functions
 
 def formatTag(self):
@@ -104,7 +122,7 @@ def getRawImageData(self):
     querystring = {"url":self,"version":"2"}
     headers = {
         'accept': "application/json",
-        'authorization': "Basic YWNjX2ZiNDMxNDBmYTliZjJiNTo0ZmNjMDRjYmE2YWZjNWU0MWNmMGYyYTc1NGZmMzJhNw=="
+        'authorization': "Basic YWNjXzU0ZGExZjg4Y2ZjYjgzMDphMzUwNTFhZThhZTVjMjExMmI4ZThlNmY1ZDRmODRkMw=="
         }
     response = requests.request("GET", url, headers=headers, params=querystring)
     output_raw = response.text
@@ -125,7 +143,11 @@ def assessViolence(self):
         for n in range (0, len(flag_words)):
             if flag_words[n] in self[i].split(" ")[0]:
                 threat_level += float(self[i].split(" ")[1])
-    return threat_level / 10
+    if threat_level > 0:
+        return '{0:.{1}f}'.format(math.log10(threat_level) * 25, 2)
+    else:
+        return 0
+    #return threat_level / 10
 
 def assessImages(self):
     urls = open(self, "r").read().split(", ")
@@ -141,7 +163,7 @@ def getImageAccountData(self):
         file_output.write(file_input[i])
         i += 1
         while len(file_input[i]) > 1:
-            file_output.write(str(assessViolence(getRawImageData(file_input[i]))) + "\n")
+            file_output.write(file_input[i].split(" ")[0] + " " + str('{0:.{1}f}'.format(float(assessViolence(getRawImageData(file_input[i].split(" ")[1]))), 2)) + "\n")
             i += 1
             if i == len(file_input):
                 file_output.close()
@@ -159,12 +181,12 @@ def getOffensiveness(self):
     if "e" in data_raw_split[0].split(" ")[1]:
         output += "0.00"
     else:
-        output += str('{0:.{1}f}'.format(float(data_raw_split[0].split(" ")[1]) * 100, 2)) + ", "
+        output += str('{0:.{1}f}'.format(float(data_raw_split[0].split(" ")[1]) * 100, 2)) + " "
     output += data_raw_split[1].split(" ")[0] + " "
     if "e" in data_raw_split[1].split(" ")[1]:
         output += "0.00"
     else:
-        output += str('{0:.{1}f}'.format(float(data_raw_split[1].split(" ")[1]) * 100, 2)) + ", "
+        output += str('{0:.{1}f}'.format(float(data_raw_split[1].split(" ")[1]) * 100, 2)) + " "
     output += data_raw_split[2].split(" ")[0] + " "
     if "e" in data_raw_split[2].split(" ")[1]:
         output += "0.00"
@@ -189,6 +211,10 @@ def getCaptionAccountData(self):
     file_input.close()
     file_output.close()
 
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
 #opens file of usernames
 usernames_file = open("usernames.txt")
 usernames_text = usernames_file.read()
@@ -204,15 +230,26 @@ for i in range(usernames_text.count(";")):
     #writes captions to captions.txt
     captions_file.write("\n" + current_username + "\n")
     for caption in get_profile_captions(current_username):
-        captions_file.write(caption + "\n")
+        try:
+            captions_file.write(caption + "\n")
+        except:
+            for n in range (0, len(caption)):
+                try:
+                    captions_file.write(caption[n])
+                except:
+                    captions_file.write("")
+            captions_file.write("\n")
 
     #writes urls to urls.txt
     image_urls_file.write("\n" + current_username + "\n")
-    for url in get_profile_picture_urls(current_username):
-        image_urls_file.write(url + "\n")
+    urls_array = get_profile_picture_urls(current_username)
+    dates_array = get_profile_picture_dates(current_username)
+    for i in range(len(urls_array)):
+        image_urls_file.write(dates_array[i] + " " + urls_array[i] + "\n")
 
 captions_file.close()
 image_urls_file.close()
+
 
 #Image Classification
 abspath = os.path.abspath(__file__)
@@ -225,3 +262,7 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 getCaptionAccountData("captions.txt")
+
+complete = open("complete.txt", "w")
+complete.write("complete")
+complete.close()
